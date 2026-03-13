@@ -1,4 +1,4 @@
-const driver = require("../dist/abw-at2-drv.js");
+const codec = require("../dist/abw-at3-drv.js");
 
 function hexToBytes(str){
     var result = [];
@@ -9,11 +9,11 @@ function hexToBytes(str){
     return result;
 }
 
-const bytes = hexToBytes("0a00f9860007");
+const bytes = hexToBytes("105e0c248a00000119ff3ff20436458000a10000000a1765");
 const recvTime = new Date().toISOString();
 const fPort = 18;
 
-const result = driver.decodeUplink({
+const result = codec.decodeUplink({
   bytes,
   recvTime,
   fPort,

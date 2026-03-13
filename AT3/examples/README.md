@@ -1,25 +1,25 @@
 # How to try the examples
 
-Try out the nodejs module
+## Node.js module
 
 ```bash
 cd AT3
-node examples/driver-as-nodejs-module.js
+node examples/codec-as-nodejs-module.js
 ```
 
-Try out the chirpstack module
+## Chirpstack module
 
 ```bash
 cd AT3
-node examples/driver-as-chirpstack-module.js
+node examples/codec-as-chirpstack-module.js
 ```
 
-Try out the browser module
+## Browser module
 
 ```bash
 # Run the development server
 npm run serve
 
 # Open the following url in a browser:
-http://localhost:8080/examples/driver-as-browser-module.html
+http://localhost:8080/examples/codec-as-browser-module.html
 ```
