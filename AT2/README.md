@@ -1,4 +1,4 @@
-# Asset Tracker Driver v2
+# Asset Tracker Codec v2
 
 ## Install
 

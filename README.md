@@ -1,8 +1,8 @@
-# Abeeway Asset Tracker Drivers
+# Abeeway Asset Tracker Codecs
 
-## AT2: Asset Tracker Driver v2
+## AT2: Asset Tracker Codec v2
 
-Published builds are attached to [GitHub Releases](https://github.com/norbertherbert/abeeway-driver/releases) tagged as `at2-v<version>`.
+Published builds are attached to [GitHub Releases](https://github.com/abeeway/abeeway-codec/releases) tagged as `at2-v<version>`.
 
 | File | Format | Intended usage |
 | --- | --- | --- |
@@ -15,9 +15,9 @@ For local development, build the package with `npm ci && npm run build` inside `
 
 See example usage patterns in the `AT2/examples` folder
 
-## AT3: Asset Tracker Driver v3
+## AT3: Asset Tracker Codec
 
-Published builds are attached to [GitHub Releases](https://github.com/norbertherbert/abeeway-driver/releases) tagged as `at3-v<version>`.
+Published builds are attached to [GitHub Releases](https://github.com/abeeway/abeeway-codec/releases) tagged as `at3-v<version>`.
 
 | File | Format | Intended usage |
 | --- | --- | --- |
