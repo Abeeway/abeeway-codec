@@ -1,0 +1,75 @@
+name: Deploy AT3 Example To GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: AT3/package-lock.json
+
+      - name: Install dependencies
+        working-directory: AT3
+        run: npm ci
+
+      - name: Build package
+        working-directory: AT3
+        run: npm run build
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Stage Pages artifact
+        shell: bash
+        run: |
+          mkdir -p _site/dist _site/examples
+          cp AT3/examples/codec-as-browser-module.html _site/examples/codec-as-browser-module.html
+          cp AT3/dist/* _site/dist/
+          cat <<'EOF' > _site/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=./examples/codec-as-browser-module.html">
+            <title>AT3 Browser Module Example</title>
+          </head>
+          <body>
+            <p><a href="./examples/codec-as-browser-module.html">Open the AT3 browser module example</a></p>
+          </body>
+          </html>
+          EOF
+          touch _site/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

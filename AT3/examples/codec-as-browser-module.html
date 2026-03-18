@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
 <body>
+  <label for="hex-input">AT3 Hex payload</label>
+  <input
+    id="hex-input"
+    type="text"
+    value="105e0c248a00000119ff3ff20436458000a10000000a1765"
+    style="display:block; width: 100%; max-width: 720px; margin: 8px 0;"
+  />
+  <button id="decode-button" type="button">Decode</button>
+  <button id="clear-button" type="button">Clear</button>
   <pre id="output"></pre>
 
   <script type="module">
-    import { decodeUplink } from "/dist/abw-at3-drv.mjs";
+    import { decodeUplink } from "../dist/abw-at3-drv.mjs";
 
     function hexToBytes(str){
+      str = str.replace(/\s+/g, "");
+      if (str.length === 0) {
+        return [];
+      }
+      if (str.length % 2 !== 0 || /[^0-9a-f]/i.test(str)) {
+        throw new Error("Please enter a valid hex string with an even number of characters.");
+      }
+
       var result = [];
       while (str.length >= 2) {
           result.push(parseInt(str.substring(0, 2), 16));
@@ -15,18 +32,34 @@
       return result;
     }
 
-    const bytes = hexToBytes("105e0c248a00000119ff3ff20436458000a10000000a1765");
-    const recvTime = new Date().toISOString();
-    const fPort = 18;
+    const input = document.getElementById("hex-input");
+    const output = document.getElementById("output");
+    const decodeButton = document.getElementById("decode-button");
+    const clearButton = document.getElementById("clear-button");
 
-    const result = decodeUplink({
-      bytes,
-      recvTime,
-      fPort
+    function renderDecodedPayload() {
+      try {
+        const bytes = hexToBytes(input.value);
+        const recvTime = new Date().toISOString();
+        const fPort = 18;
+
+        const result = decodeUplink({
+          bytes,
+          recvTime,
+          fPort
+        });
+
+        output.textContent = JSON.stringify(result, null, 2);
+      } catch (error) {
+        output.textContent = error.message;
+      }
+    }
+
+    decodeButton.addEventListener("click", renderDecodedPayload);
+    clearButton.addEventListener("click", function () {
+      input.value = "";
+      output.textContent = "";
     });
-
-    document.getElementById("output").textContent =
-      JSON.stringify(result, null, 2);
   </script>
 </body>
 </html>
