@@ -75,7 +75,7 @@ var umdConfigChirpstack = {
     filename: 'abw-at2-drv-chirpstack.js',
     library: 'driver',
     libraryTarget: 'umd',
-    globalObject: 'this',
+    globalObject: 'globalThis',
   },
   plugins: [
     new webpack.BannerPlugin({
