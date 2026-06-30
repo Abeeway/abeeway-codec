@@ -83,6 +83,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          registry-url: 'https://registry.npmjs.org'
           cache: npm
           cache-dependency-path: ${{ steps.target.outputs.package_dir }}/package-lock.json
 
@@ -128,3 +129,28 @@ jobs:
             ${{ steps.archive.outputs.archive }}
             ${{ steps.target.outputs.package_dir }}/dist/*
             SHA256SUMS.txt
+
+      - name: Publish to npmjs
+        working-directory: ${{ steps.target.outputs.package_dir }}
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify CDN availability
+        shell: bash
+        run: |
+          pkg_name="$(node -p "require('./${{ steps.target.outputs.package_dir }}/package.json').name")"
+          version="${{ steps.target.outputs.version }}"
+          cdn_url="https://cdn.jsdelivr.net/npm/${pkg_name}@${version}/src/index.js"
+          echo "Waiting for jsDelivr CDN to mirror the package..."
+          for i in $(seq 1 10); do
+            status=$(curl -s -o /dev/null -w "%{http_code}" "${cdn_url}")
+            if [[ "${status}" == "200" ]]; then
+              echo "✅ Package available on CDN: ${cdn_url}"
+              exit 0
+            fi
+            echo "Attempt ${i}/10 — HTTP ${status}, retrying in 30s..."
+            sleep 30
+          done
+          echo "⚠️ Package not yet available on CDN after 5 minutes: ${cdn_url}"
+          exit 0
