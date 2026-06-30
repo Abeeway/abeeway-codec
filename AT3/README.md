@@ -35,3 +35,17 @@ Device Profiles → <your profile> → Codec → Custom JavaScript codec functio
 
 The bundle exposes `decodeUplink`, `decodeDownlink` and `encodeDownlink` as global functions
 required by ChirpStack's JavaScript codec interface.
+
+## Test
+
+```bash
+cd AT3
+node run-test.js
+```
+
+## Firmware compatibility
+
+| Codec version | AT3 firmware |
+| --- | --- |
+| 3.2.26 | v1.5 |
+| 3.2.25 | v1.4 |
