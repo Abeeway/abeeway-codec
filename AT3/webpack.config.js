@@ -80,4 +80,19 @@ var umdConfigChirpstack = {
   }
 };
 
-module.exports = [umdConfigSrc, umdConfig, esmConfig, umdConfigChirpstack];
+var umdConfigCdn = {
+  mode: 'production',
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, './src'),
+    library: 'driver',
+    filename: 'index.min.js',
+    libraryTarget: 'umd',
+    globalObject: 'this',
+  },
+  optimization: {
+    minimize: true,
+  }
+};
+
+module.exports = [umdConfigSrc, umdConfig, esmConfig, umdConfigChirpstack, umdConfigCdn];
