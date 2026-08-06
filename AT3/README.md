@@ -9,7 +9,7 @@ The IoT Flow Abeeway Asset Tracker 3 driver implements the specification of Java
 ## CDN (browser)
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/abeeway-asset-tracker-driver-v3@3.2.27/src/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/abeeway-asset-tracker-driver-v3@3.2.28/src/index.min.js"></script>
 ```
 
 ---
@@ -123,6 +123,7 @@ node run-test.js
 
 | Codec version | AT3 firmware |
 | --- | --- |
+| 3.2.28 | v1.5 |
 | 3.2.27 | v1.5 |
 | 3.2.26 | v1.5 |
 | 3.2.25 | v1.4 |
