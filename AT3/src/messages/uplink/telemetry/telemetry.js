@@ -52,12 +52,12 @@ function decodeMetadataPayload(telemetryPayload, timestamp) {
         };
         offset += 8;
     }
-    if (!context) {
+    if (typeof context === 'undefined' || !context) {
         throw new Error("Context doesn't exist");
     }
 
     // Clear context
-    context.length = 0
+    context.length = 0;
     context.push(telemetryMetadataStore);
 
     return { data: telemetryMetadataStore, errors: [], warnings: [] };
@@ -136,7 +136,7 @@ function decodeTimeseriesPayload(telemetryPayload, timestamp) {
     const cyclicVersion = (byte1 >> 5) & 0x07;
     const cyclicCounter = byte1 & 0x1F;
 
-    if (!context || context.length === 0) {
+    if (typeof context === 'undefined' || !context || context.length === 0) {
         throw new Error("Context is empty, cannot retrieve metadata history");
     }
 
